@@ -1,0 +1,17 @@
+@startuml
+actor       "Car"       as car
+participant "IP Camera" as cam
+participant "Server" as server
+database    Database    as db
+participant "Slack Channel" as slack
+
+car -> cam: car detected by camera
+cam -> server: send video of car
+server -> server: recognize plate
+server -> db: car is allowed?
+db --> server: response
+alt "if isn't allowed"
+  server -> slack: send message with car image, hour and plate of the car
+end
+
+@enduml
